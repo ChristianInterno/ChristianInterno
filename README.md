@@ -9,5 +9,6 @@ On this profile, you will find a collection of some projects in the fields of Ma
 
 Feel free to connect with me on:
 [Linkedin](www.linkedin.com/in/christian-interno)
+and 
 [Twitter](https://twitter.com/ChristianInte16)
 or contact me at c.interno@campus.unimib.it 🦜.
