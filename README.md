@@ -1,6 +1,6 @@
 # ChristianInterno
 
-Hello World, welcome to my GitHub profile!
+Hello World🌍, welcome to my GitHub profile!
 
 I'm Christian Internò and I am a Machine Learning Researcher at Honda Research Institute EU👨‍💻 and a M.Sc. student in Data Science at the University of Milano-Bicocca 📚.
 
