@@ -1,10 +1,12 @@
 # ChristianInterno
 
-Hello World🌍, welcome to my GitHub profile!
+Hello World!🌍
 
-I'm Christian Internò and I am a Machine Learning Researcher at Honda Research Institute EU👨‍💻 and a M.Sc. student in Data Science at the University of Milano-Bicocca 📚.
+Welcome to my Linkedin profile, I'm Christian Internò and I am a Machine Learning Researcher at Honda Research Institute EU👨‍💻 and PhD student in Computer Science at Bielefield University (Germany)📚. 
 
-On this profile, you will find a collection of some projects in the fields of Machine Learning 🤖 and Data Science 📊.
+I'm part of Nature Inspired Computing and Engineering (NICE) working on 'Federated Learning for Global System Optimisation - Collaborative Machine Learning without Centralized Training Data for Privacy Preservation.'
+
+On this profile, I will also share some projects and in the fields of Machine Learning and AI🤖. 
 
 
 Feel free to connect with me on:
