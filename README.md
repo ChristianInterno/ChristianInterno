@@ -11,4 +11,4 @@ Feel free to connect with me on:
 [Linkedin](www.linkedin.com/in/christian-interno)
 and 
 [Twitter/X](https://twitter.com/ChristianInte16)
-or contact me at c.interno@campus.unimib.it 🦜.
+or contact me at christian.interno@uni-bielefeld.de 🦜.
