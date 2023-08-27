@@ -6,11 +6,9 @@ Welcome to my Linkedin profile, I'm Christian Internò and I am a Machine Learni
 
 I'm part of Nature Inspired Computing and Engineering (NICE) working on 'Federated Learning for Global System Optimisation - Collaborative Machine Learning without Centralized Training Data for Privacy Preservation.'
 
-On this profile, I will also share some projects and in the fields of Machine Learning and AI🤖. 
-
 
 Feel free to connect with me on:
 [Linkedin](www.linkedin.com/in/christian-interno)
 and 
-[Twitter](https://twitter.com/ChristianInte16)
+[Twitter/X](https://twitter.com/ChristianInte16)
 or contact me at c.interno@campus.unimib.it 🦜.
