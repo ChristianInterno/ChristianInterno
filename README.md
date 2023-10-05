@@ -1,14 +1,35 @@
-# ChristianInterno
+<h1 align="center">ChristianInterno</h1>
+<p align="center">
+  <img src="https://media.giphy.com/media/SWoSkN6DxTszqIKEqv/giphy.gif" width="40"> 
+  <br>Hello World!🌍
+</p>
 
-Hello World!🌍
+---
 
-Welcome to my Linkedin profile, I'm Christian Internò and I am a Machine Learning Researcher at Honda Research Institute EU👨‍💻 and PhD student in Computer Science at Bielefield University (Germany)📚. 
+Hi there! I'm **Christian Internò**, a Machine Learning Researcher at **Honda Research Institute EU** 👨‍💻 and a PhD student in Computer Science at **Bielefeld University, Germany** 📚.
 
-I'm part of Nature Inspired Computing and Engineering (NICE) working on 'Federated Learning for Global System Optimisation - Collaborative Machine Learning without Centralized Training Data for Privacy Preservation.'
+I'm a part of the **Nature Inspired Computing and Engineering (NICE)** group, where I focus on:
 
+> "Federated Learning for Global System Optimisation - Collaborative Machine Learning without Centralized Training Data for Privacy Preservation."
 
-Feel free to connect with me on:
-[Linkedin](www.linkedin.com/in/christian-interno)
-and 
-[Twitter/X](https://twitter.com/ChristianInte16)
-or contact me at christian.interno@uni-bielefeld.de 🦜.
+---
+
+<p align="center">
+  📫 How to reach me: 
+  <br><br>
+  <a href="https://www.linkedin.com/in/christian-interno">
+    <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+  </a>
+  &nbsp;
+  <a href="https://twitter.com/ChristianInte16">
+    <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
+  </a>
+  &nbsp;
+  <a href="https://github.com/YourGitHubUsername">
+    <img src="https://img.shields.io/badge/GitHub-%2312100E.svg?&style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+</p>
+
+🦜 For direct emails, you can reach me at: 
+[christian.interno@uni-bielefeld.de](mailto:christian.interno@uni-bielefeld.de)
+
