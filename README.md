@@ -8,7 +8,7 @@
 
 Hi there! I'm **Christian Internò**, a Machine Learning Researcher at **Honda Research Institute EU** 👨‍💻 and a PhD student in Computer Science at **Bielefeld University, Germany** 📚.
 
-I'm a part of the **Nature Inspired Computing and Engineering (NICE)** group, where I focus on:
+I'm a part of the **Center for Cognitive Interaction Technology (CITEC)** group, where I focus on:
 
 > "Federated Learning for Global System Optimisation - Collaborative Machine Learning without Centralized Training Data for Privacy Preservation."
 
