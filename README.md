@@ -6,7 +6,7 @@
 
 ---
 
-Hi there! I'm **Christian Internò**, a Machine Learning Researcher at **Honda Research Institute EU** 👨‍💻 and a PhD student in Computer Science at **Bielefeld University, Germany** 📚.
+Hi there! I'm **Christian Internò**, a PhD student in Computer Science at **Bielefeld University, Germany** 📚 and Machine Learning Researcher at **Honda Research Institute EU** 👨‍💻.
 
 I'm a part of the **Center for Cognitive Interaction Technology (CITEC)** group, where I focus on:
 
