@@ -24,6 +24,7 @@ I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Inte
   <a href="https://twitter.com/ChristianInte16">
     <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
+  &nbsp;
   <a href="https://scholar.google.com/citations?user=melu9g0AAAAJ&hl=en">
     <img src="https://img.shields.io/badge/Google%20Scholar-%230077B5.svg?&style=for-the-badge&logo=googlescholar&logoColor=white" alt="Google Scholar">
   </a>
