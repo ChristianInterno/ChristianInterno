@@ -16,11 +16,11 @@ I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Inte
 
 ## GitHub Statistics
 
-![Your GitHub Stats](https://github-readme-stats.vercel.app/api?username=your-username&show_icons=true&theme=radical)
+![Your GitHub Stats](https://github.com/ChristianInterno)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=your-username&layout=compact&theme=radical)
+![Top Languages](https://github.com/ChristianInterno)
 
-![Your Streak](https://github-readme-streak-stats.herokuapp.com/?user=your-username&theme=radical)
+![Your Streak](https://github.com/ChristianInterno)
 
 ---
 
