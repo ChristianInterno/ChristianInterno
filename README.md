@@ -19,7 +19,6 @@ I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Inte
  
 <div>
    <img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=ChristianInterno" alt="Christian Internò's GitHub Streak Stats" />
-   <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=ChristianInterno&langs_count=10&show_icons=true&locale=en&layout=compact&theme=light" alt="Christian Internò's Top Languages" height="192px" width="500px"/>
 </div>
 
 **Expand to view**
