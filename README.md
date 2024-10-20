@@ -10,9 +10,7 @@ Hi there! I'm **Christian Internò**, PhD student in Computer Science - Machine 
 
 **(I’ve recently joined Cold Spring Harbor Laboratory (New York,US) as a Visiting Researcher in the department of Computational Neuroscience, working in the David Klindt Laboratory)**
 
-I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Interaction Technology (CITEC)**  in Bielefeld, where I focus on:
-
-> "Collaborative Machine Learning - Federated Learning for Global System Optimisation". This research leverages federated learning to optimize global systems, addressing challenges and fostering innovation in real-world distributed scenarios. With a focus on adaptability, robustness, and collaboration, the project redefines machine learning deployment in various sensitive contexts within the Honda Research Institute EU (HRI-EU).
+I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Interaction Technology (CITEC)**  in Bielefeld, where I focus on "Collaborative Machine Learning - Federated Learning for Global System Optimisation". This research leverages federated learning to optimize global systems, addressing challenges and fostering innovation in real-world distributed scenarios. With a focus on adaptability, robustness, and collaboration, the project redefines machine learning deployment in various sensitive field."
 
 ---
 <!-- GitHub section -->
