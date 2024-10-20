@@ -7,6 +7,7 @@
 ---
 
 Hi there! I'm **Christian Internò**, PhD student in Computer Science - Machine Learning at **Bielefeld University, Germany** 📚 and AI Researcher at **Honda Research Institute EU** 👨‍💻.
+
 **(I’ve recently joined Cold Spring Harbor Laboratory (New York,US) as a Visiting Researcher in the department of Computational Neuroscience, working in the David Klindt Laboratory)**
 
 I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Interaction Technology (CITEC)**  in Bielefeld, where I focus on:
