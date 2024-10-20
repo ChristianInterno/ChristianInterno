@@ -51,7 +51,7 @@ I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Inte
     <img src="https://img.shields.io/badge/LinkedIn-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
   &nbsp;
-  <a href="https://twitter.com/ChristianInte16">
+  <a href="https://twitter.com/ChrisInterno">
     <img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
   &nbsp;
