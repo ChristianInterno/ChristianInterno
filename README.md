@@ -12,28 +12,6 @@ Hi there! I'm **Christian Internò**, PhD student in Computer Science - Machine 
 
 I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Interaction Technology (CITEC)**  in Bielefeld, where I focus on "Collaborative Machine Learning - Federated Learning for Global System Optimisation". This research leverages federated learning to optimize global systems, addressing challenges and fostering innovation in real-world distributed scenarios. With a focus on adaptability, robustness, and collaboration, the project redefines machine learning deployment in various sensitive field."
 
----
-<!-- GitHub section -->
-
-## My GitHub Stats <img src="https://i.pinimg.com/originals/65/c4/f4/65c4f452571be1261e9c623f7da488ac.gif" width="35px"> 
- 
-<div>
-   <img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=ChristianInterno" alt="Christian Internò's GitHub Streak Stats" />
-</div>
-
-**Expand to view**
-<details>
-  <summary><b>:zap: GitHub Profile Stats</b></summary>
-  <img src="https://github-readme-stats.anuraghazra1.vercel.app/api?username=ChristianInterno&show_icons=true" alt="Christian Internò's GitHub Stats" />
-</details>
-<details>
-  <summary><b>⚡ Recent GitHub Activity</b></summary>
-  <br/>
-   <a href="https://github.com/ChristianInterno"><img alt="Christian Internò's Activity Graph" src="https://activity-graph.herokuapp.com/graph?username=ChristianInterno&custom_title=Christian%20Internò's%20Contribution%20Graph&theme=react-dark" /></a>
-  <br/>
-</details>
-
-<!-- GitHub section: END -->
 
 <!-- Profile Views -->
 
