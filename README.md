@@ -13,11 +13,6 @@ Hi there! I'm **Christian Internò**, PhD student in Computer Science - Machine 
 I'm a part of the **Machine Learning Group**  at the **Center for Cognitive Interaction Technology (CITEC)**  in Bielefeld, where I focus on "Collaborative Machine Learning - Federated Learning for Global System Optimisation". This research leverages federated learning to optimize global systems, addressing challenges and fostering innovation in real-world distributed scenarios. With a focus on adaptability, robustness, and collaboration, the project redefines machine learning deployment in various sensitive field."
 
 
-<!-- Profile Views -->
-
-<p align="left"> <img src="https://komarev.com/ghpvc/?username=ChristianInterno&label=Profile%20views&color=0e75b6&style=flat" alt="Christian Internò's Profile Views" /> </p>
-
-<!-- THE END -->
 
 
 ---
