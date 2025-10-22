@@ -6,7 +6,7 @@
 
 ---
 
-Hi there! I'm **Christian Internò**, PhD student in Machine Learning at **Bielefeld University, Germany** 📚 with **Honda Research Institute EU** 👨‍💻.
+Hi there! I'm **Christian Internò**, PhD student in Machine Learning at **Bielefeld University, Germany** 📚 with **Honda Research Institute** 👨‍💻.
 
 **(I’ve recently joined Cold Spring Harbor Laboratory (New York,US) as a Visiting Researcher in the department of Computational Neuroscience, working in the David Klindt Laboratory)**
 
