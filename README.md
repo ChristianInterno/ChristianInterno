@@ -4,7 +4,7 @@
 
 **ML Researcher** · Visiting Researchear at [University of Oxford](https://torrvision.com/index.html) · PhD candidate at [Bielefeld University](https://github.com/HammerLabML) · PhD Fellow [Honda Research Institute](https://github.com/HRI-EU)
 
-Formerly visiting researcher at **Cold Spring Harbor Laboratory** (NY) and **Leiden University** (NL).
+ Previously researcher at **Cold Spring Harbor Laboratory** (NY) and **Leiden University** (NL).
 
 ---
 
