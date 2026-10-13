@@ -1,15 +1,16 @@
 """
 Total GitHub stars over time, across all of a user's repositories.
 
-Reads the date of every star of every public, non-fork repository the user owns (plus
-any in EXTRA_REPOS), adds them up and draws the running total as two SVGs, one for
-GitHub's light theme and one for its dark theme, plus a CSV of the same numbers.
+Reads the daily star counts of every public, non-fork repository the user owns (plus any
+in EXTRA_REPOS) from GitHub's star history endpoint (GET /repos/{owner}/{repo}/stargazers/history,
+which covers any public repository back to its creation and needs no special permission),
+adds them up and draws the running total as two SVGs, one for GitHub's light theme and one
+for its dark theme, plus a CSV of the same numbers.
 
 Environment:
   GH_USER       GitHub user name (required)
-  STARS_TOKEN   a personal access token (no scopes needed); the Actions token alone
-                cannot read the stars of other repositories
-  GITHUB_TOKEN  used if STARS_TOKEN is not set
+  GITHUB_TOKEN  token for the GitHub API (the Actions token is enough)
+  STARS_TOKEN   optional, a personal access token used instead of GITHUB_TOKEN
   EXTRA_REPOS   optional, comma-separated owner/repo to add (e.g. repos under an organisation)
   INCLUDE_FORKS optional, "1" to count forks too
   OUT_DIR       optional, default "stars"
@@ -40,10 +41,10 @@ THEMES = {   # series hue, text, muted text, gridline, axis; background stays tr
 WARNED = set()
 
 
-def get(url, accept="application/vnd.github+json", auth=True):
+def get(url, accept="application/vnd.github+json", auth=True, version="2022-11-28"):
     """GET a GitHub API url, with STARS_TOKEN (or the workflow's token) if set. Public data is
     readable without a token too, so if the token is refused the request is repeated without it."""
-    headers = {"Accept": accept, "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "star-history"}
+    headers = {"Accept": accept, "X-GitHub-Api-Version": version, "User-Agent": "star-history"}
     token = os.environ.get("STARS_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if token and auth:
         headers["Authorization"] = "Bearer " + token
@@ -58,11 +59,10 @@ def get(url, accept="application/vnd.github+json", auth=True):
         if token and auth and e.code in (401, 403, 404):
             if "token" not in WARNED:
                 WARNED.add("token")
-                print("note: the token was refused (%d %s); reading public data without it. For a token "
-                      "that works everywhere, use a classic token with no scopes as STARS_TOKEN." % (e.code, msg))
-            return get(url, accept, auth=False)
+                print("note: the token was refused (%d %s); reading public data without it" % (e.code, msg))
+            return get(url, accept, auth=False, version=version)
         if e.code == 403 and "rate limit" in msg.lower():
-            msg += " (without a working STARS_TOKEN only 60 requests per hour are allowed)"
+            msg += " (without a token only 60 requests per hour are allowed)"
         raise RuntimeError("GitHub API error %d on %s: %s" % (e.code, url, msg))
 
 
@@ -74,29 +74,51 @@ def pages(url, accept="application/vnd.github+json"):
         url = m.group(1) if m else None
 
 
+def history(full):
+    """{date: stars given that day} for one repository, from the weekly star history
+    (newest week first, up to 30 weeks per page, paging back to the creation week)"""
+    days = {}
+    for page in range(1, 101):
+        data, _ = get("%s/repos/%s/stargazers/history?per_page=30&page=%d" % (API, full, page),
+                      version="2026-03-10")
+        for wk in data:
+            start = dt.datetime.fromtimestamp(wk["week"], dt.timezone.utc).date()
+            counts = wk.get("days") or []
+            if not counts and wk.get("total"):
+                counts = [wk["total"]]
+            for i, n in enumerate(counts):
+                if n:
+                    d = start + dt.timedelta(days=i)
+                    days[d] = days.get(d, 0) + n
+        if len(data) < 30:
+            break
+    return days
+
+
 def collect(user, extra=(), forks=False):
-    """{owner/repo: [star datetimes]}"""
+    """{owner/repo: {date: stars given that day}}"""
     try:
         listed = list(pages("%s/users/%s/repos?type=owner&per_page=100" % (API, user)))
     except RuntimeError as e:
         raise SystemExit(str(e))
+    count = {r["full_name"]: r["stargazers_count"] for r in listed}
     repos = [r["full_name"] for r in listed
              if r["stargazers_count"] > 0 and (forks or not r["fork"]) and not r.get("private")]
     repos += [r for r in extra if r and r not in repos]
     out = {}
     for full in repos:
         try:
-            stars = [dt.datetime.fromisoformat(s["starred_at"].replace("Z", "+00:00"))
-                     for s in pages("%s/repos/%s/stargazers?per_page=100" % (API, full),
-                                    "application/vnd.github.star+json")]
+            days = history(full)
         except RuntimeError as e:
             if " 404 " in str(e):                     # gone or not visible at all: skip it, say so
                 print("%-45s skipped (%s)" % (full, e))
                 continue
             raise SystemExit(str(e))
-        if stars:
-            out[full] = sorted(stars)
-        print("%-45s %5d stars" % (full, len(stars)))
+        if days:
+            out[full] = days
+        n = sum(days.values())
+        print("%-45s %5d stars%s" % (full, n, "" if full not in count or count[full] == n
+                                      else "  (repository page says %d)" % count[full]))
     return out
 
 
@@ -110,31 +132,41 @@ def plot(by_repo, user, path, theme):
     c = THEMES[theme]
     plt.rcParams.update({"svg.fonttype": "none", "font.size": 11,
                          "font.family": ["-apple-system", "Segoe UI", "Helvetica", "Arial", "DejaVu Sans"]})
-    times = sorted(t for v in by_repo.values() for t in v)
+    daily = {}
+    for v in by_repo.values():
+        for d, n in v.items():
+            daily[d] = daily.get(d, 0) + n
     now = dt.datetime.now(dt.timezone.utc)
+    dates = sorted(d for d in daily if d <= now.date())
+    total = sum(daily[d] for d in dates)
     fig, ax = plt.subplots(figsize=(8, 3.4))
     fig.patch.set_alpha(0)
     ax.set_facecolor("none")
 
-    if times:
-        x = [times[0]] + times + [now]
-        y = [0] + list(range(1, len(times) + 1)) + [len(times)]
+    if dates:
+        day = lambda d: dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc)
+        cum, run = [], 0
+        for d in dates:
+            run += daily[d]
+            cum.append(run)
+        x = [day(dates[0])] + [day(d) for d in dates] + [now]
+        y = [0] + cum + [total]
         ax.step(x, y, where="post", color=c["series"], lw=2, solid_joinstyle="round", solid_capstyle="round")
         ax.fill_between(x, y, step="post", color=c["series"], alpha=0.10, lw=0)
-        ax.plot([now], [len(times)], "o", ms=8, color=c["series"], clip_on=False, zorder=3)
-        ax.annotate("%d" % len(times), (now, len(times)), xytext=(10, 0), textcoords="offset points",
+        ax.plot([now], [total], "o", ms=8, color=c["series"], clip_on=False, zorder=3)
+        ax.annotate("%d" % total, (now, total), xytext=(10, 0), textcoords="offset points",
                     va="center", ha="left", color=c["text"], fontsize=13, fontweight="bold",
                     annotation_clip=False)
-        ax.set_ylim(0, max(len(times) * 1.12, 5))
-        ax.set_xlim(times[0], now)
+        ax.set_ylim(0, max(total * 1.12, 5))
+        ax.set_xlim(day(dates[0]), now)
     else:
         ax.text(0.5, 0.5, "no stars yet", transform=ax.transAxes, ha="center", color=c["muted"])
         ax.set_axis_off()
 
-    top = sorted(by_repo.items(), key=lambda kv: -len(kv[1]))
-    parts = ["%s %d" % (k.split("/", 1)[1], len(v)) for k, v in top[:4]]
+    top = sorted(((k, sum(v.values())) for k, v in by_repo.items()), key=lambda kv: -kv[1])
+    parts = ["%s %d" % (k.split("/", 1)[1], n) for k, n in top[:4]]
     if len(top) > 4:
-        parts.append("%d in %d other repos" % (sum(len(v) for _, v in top[4:]), len(top) - 4))
+        parts.append("%d in %d other repos" % (sum(n for _, n in top[4:]), len(top) - 4))
     fig.text(0.02, 0.97, "GitHub stars, all repositories", ha="left", va="top",
              color=c["text"], fontsize=13, fontweight="bold")
     fig.text(0.02, 0.885, " · ".join(parts), ha="left", va="top", color=c["secondary"], fontsize=10)
@@ -163,16 +195,17 @@ def main():
     for theme in THEMES:
         plot(by_repo, user, os.path.join(out, "stars-%s.svg" % theme), theme)
     days = {}
-    for t in sorted(t for v in by_repo.values() for t in v):
-        days[t.date().isoformat()] = days.get(t.date().isoformat(), 0) + 1
+    for v in by_repo.values():
+        for d, n in v.items():
+            days[d] = days.get(d, 0) + n
     with open(os.path.join(out, "stars.csv"), "w", newline="") as fh:
         w = csv.writer(fh)
         w.writerow(["date", "new_stars", "total_stars"])
         total = 0
         for d in sorted(days):
             total += days[d]
-            w.writerow([d, days[d], total])
-    print("total: %d stars across %d repos -> %s/" % (sum(len(v) for v in by_repo.values()), len(by_repo), out))
+            w.writerow([d.isoformat(), days[d], total])
+    print("total: %d stars across %d repos -> %s/" % (sum(sum(v.values()) for v in by_repo.values()), len(by_repo), out))
 
 
 if __name__ == "__main__":
