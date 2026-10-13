@@ -37,11 +37,15 @@ THEMES = {   # series hue, text, muted text, gridline, axis; background stays tr
 }
 
 
-def get(url, accept="application/vnd.github+json"):
-    """GET a GitHub API url with STARS_TOKEN (your token) or, failing that, the workflow's token"""
+WARNED = set()
+
+
+def get(url, accept="application/vnd.github+json", auth=True):
+    """GET a GitHub API url, with STARS_TOKEN (or the workflow's token) if set. Public data is
+    readable without a token too, so if the token is refused the request is repeated without it."""
     headers = {"Accept": accept, "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "star-history"}
     token = os.environ.get("STARS_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    if token:
+    if token and auth:
         headers["Authorization"] = "Bearer " + token
     try:
         with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as r:
@@ -51,13 +55,15 @@ def get(url, accept="application/vnd.github+json"):
             msg = json.loads(e.read().decode()).get("message", "")
         except Exception:
             msg = ""
-        hint = ""
-        if e.code in (401, 403) and not os.environ.get("STARS_TOKEN"):
-            hint = ("\n  -> add a personal access token as the repository secret STARS_TOKEN "
-                    "(the workflow's own token cannot read other repositories' stars)")
-        elif e.code == 401:
-            hint = "\n  -> the STARS_TOKEN secret is invalid or expired: create a new token and update the secret"
-        raise SystemExit("GitHub API error %d on %s: %s%s" % (e.code, url, msg, hint))
+        if token and auth and e.code in (401, 403, 404):
+            if "token" not in WARNED:
+                WARNED.add("token")
+                print("note: the token was refused (%d %s); reading public data without it. For a token "
+                      "that works everywhere, use a classic token with no scopes as STARS_TOKEN." % (e.code, msg))
+            return get(url, accept, auth=False)
+        if e.code == 403 and "rate limit" in msg.lower():
+            msg += " (without a working STARS_TOKEN only 60 requests per hour are allowed)"
+        raise RuntimeError("GitHub API error %d on %s: %s" % (e.code, url, msg))
 
 
 def pages(url, accept="application/vnd.github+json"):
@@ -70,14 +76,24 @@ def pages(url, accept="application/vnd.github+json"):
 
 def collect(user, extra=(), forks=False):
     """{owner/repo: [star datetimes]}"""
-    repos = [r["full_name"] for r in pages("%s/users/%s/repos?type=owner&per_page=100" % (API, user))
-             if r["stargazers_count"] > 0 and (forks or not r["fork"])]
+    try:
+        listed = list(pages("%s/users/%s/repos?type=owner&per_page=100" % (API, user)))
+    except RuntimeError as e:
+        raise SystemExit(str(e))
+    repos = [r["full_name"] for r in listed
+             if r["stargazers_count"] > 0 and (forks or not r["fork"]) and not r.get("private")]
     repos += [r for r in extra if r and r not in repos]
     out = {}
     for full in repos:
-        stars = [dt.datetime.fromisoformat(s["starred_at"].replace("Z", "+00:00"))
-                 for s in pages("%s/repos/%s/stargazers?per_page=100" % (API, full),
-                                "application/vnd.github.star+json")]
+        try:
+            stars = [dt.datetime.fromisoformat(s["starred_at"].replace("Z", "+00:00"))
+                     for s in pages("%s/repos/%s/stargazers?per_page=100" % (API, full),
+                                    "application/vnd.github.star+json")]
+        except RuntimeError as e:
+            if " 404 " in str(e):                     # gone or not visible at all: skip it, say so
+                print("%-45s skipped (%s)" % (full, e))
+                continue
+            raise SystemExit(str(e))
         if stars:
             out[full] = sorted(stars)
         print("%-45s %5d stars" % (full, len(stars)))
