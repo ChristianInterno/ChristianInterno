@@ -24,6 +24,7 @@ jobs:
       - run: python .github/scripts/stars.py
         env:
           GH_USER: ${{ github.repository_owner }}
+          STARS_TOKEN: ${{ secrets.STARS_TOKEN }}       # your personal access token (repository secret)
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXTRA_REPOS: ""         # e.g. "SomeOrg/repo1,SomeOrg/repo2" for repos you don't own
       - name: Commit the chart
