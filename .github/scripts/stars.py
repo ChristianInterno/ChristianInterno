@@ -7,7 +7,9 @@ GitHub's light theme and one for its dark theme, plus a CSV of the same numbers.
 
 Environment:
   GH_USER       GitHub user name (required)
-  GITHUB_TOKEN  token for the GitHub API (the Actions token is enough)
+  STARS_TOKEN   a personal access token (no scopes needed); the Actions token alone
+                cannot read the stars of other repositories
+  GITHUB_TOKEN  used if STARS_TOKEN is not set
   EXTRA_REPOS   optional, comma-separated owner/repo to add (e.g. repos under an organisation)
   INCLUDE_FORKS optional, "1" to count forks too
   OUT_DIR       optional, default "stars"
@@ -20,6 +22,7 @@ import csv
 import json
 import logging
 import datetime as dt
+import urllib.error
 import urllib.request
 
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)   # fonts named for the browser
@@ -35,11 +38,26 @@ THEMES = {   # series hue, text, muted text, gridline, axis; background stays tr
 
 
 def get(url, accept="application/vnd.github+json"):
+    """GET a GitHub API url with STARS_TOKEN (your token) or, failing that, the workflow's token"""
     headers = {"Accept": accept, "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "star-history"}
-    if os.environ.get("GITHUB_TOKEN"):
-        headers["Authorization"] = "Bearer " + os.environ["GITHUB_TOKEN"]
-    with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as r:
-        return json.load(r), r.headers.get("Link", "")
+    token = os.environ.get("STARS_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = "Bearer " + token
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers)) as r:
+            return json.load(r), r.headers.get("Link", "")
+    except urllib.error.HTTPError as e:
+        try:
+            msg = json.loads(e.read().decode()).get("message", "")
+        except Exception:
+            msg = ""
+        hint = ""
+        if e.code in (401, 403) and not os.environ.get("STARS_TOKEN"):
+            hint = ("\n  -> add a personal access token as the repository secret STARS_TOKEN "
+                    "(the workflow's own token cannot read other repositories' stars)")
+        elif e.code == 401:
+            hint = "\n  -> the STARS_TOKEN secret is invalid or expired: create a new token and update the secret"
+        raise SystemExit("GitHub API error %d on %s: %s%s" % (e.code, url, msg, hint))
 
 
 def pages(url, accept="application/vnd.github+json"):
