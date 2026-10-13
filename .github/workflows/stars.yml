@@ -1,0 +1,35 @@
+name: Star history
+
+on:
+  schedule:
+    - cron: "17 4 * * *"          # every day at 04:17 UTC
+  workflow_dispatch:              # "Run workflow" button in the Actions tab
+  push:
+    paths:
+      - .github/workflows/stars.yml
+      - .github/scripts/stars.py
+
+permissions:
+  contents: write
+
+jobs:
+  plot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install matplotlib
+      - run: python .github/scripts/stars.py
+        env:
+          GH_USER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXTRA_REPOS: ""         # e.g. "SomeOrg/repo1,SomeOrg/repo2" for repos you don't own
+      - name: Commit the chart
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stars/
+          git diff --cached --quiet || git commit -m "Update star history"
+          git push
