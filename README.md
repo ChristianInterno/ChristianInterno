@@ -23,4 +23,13 @@
 
 ---
 
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="stars/stars-dark.svg" />
+  <img alt="Total GitHub stars across all my repositories over time" width="640" src="stars/stars-light.svg" />
+</picture>
+
+</div>
+
 </div>
